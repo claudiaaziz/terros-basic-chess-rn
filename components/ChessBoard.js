@@ -20,6 +20,33 @@ const ChessBoard = () => {
 	const [isWhiteTurn, setIsWhiteTurn] = useState(true);
 	const [moveCount, setMoveCount] = useState(1);
 
+	const isValidMove = (fromRow, fromCol, toRow, toCol) => {
+		const piece = board[fromRow][fromCol];
+
+		// Pawn movement rules
+		if (piece?.toLowerCase() === 'p') {
+			const isWhitePawn = piece === 'P';
+			const direction = isWhitePawn ? -1 : 1; // White moves up (-1), Black moves down (+1)
+
+			// Simple forward move
+			if (fromCol === toCol) {
+				// One square forward
+				if (toRow === fromRow + direction) {
+					return true;
+				}
+
+				// First move can be two squares
+				const startRow = isWhitePawn ? 6 : 1;
+				if (fromRow === startRow && toRow === fromRow + direction * 2) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	};
+
+	// Either selecting a piece or making a move
 	const handleSquarePress = (row, col) => {
 		const piece = board[row][col];
 		const isWhitePiece = piece && piece.toUpperCase() === piece;
@@ -32,16 +59,16 @@ const ChessBoard = () => {
 			return;
 		}
 
-		if (selectedPiece && !piece) {
-			// Move piece to new position
-			const newBoard = [...board];
-			newBoard[row][col] = board[selectedPiece.row][selectedPiece.col]; // Place the selected piece on the new square
-			newBoard[selectedPiece.row][selectedPiece.col] = null; // Remove the piece from its original square
-			setBoard(newBoard);
-			setSelectedPiece(null);
-			setIsWhiteTurn(!isWhiteTurn);
-			setMoveCount((prev) => prev + 1);
-		} else {
+		if (selectedPiece) {
+			// Check if move is valid before allowing it
+			if (!piece && isValidMove(selectedPiece.row, selectedPiece.col, row, col)) {
+				const newBoard = [...board];
+				newBoard[row][col] = board[selectedPiece.row][selectedPiece.col];
+				newBoard[selectedPiece.row][selectedPiece.col] = null;
+				setBoard(newBoard);
+				setIsWhiteTurn(!isWhiteTurn);
+				setMoveCount((prev) => prev + 1);
+			}
 			setSelectedPiece(null);
 		}
 	};
