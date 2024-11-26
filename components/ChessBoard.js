@@ -2,19 +2,19 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 import Square from './Square';
 import { useState } from 'react';
 
-// black lower case, white upper case
-const INITIAL_BOARD = [
-	['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
-	['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
-	[null, null, null, null, null, null, null, null],
-	[null, null, null, null, null, null, null, null],
-	[null, null, null, null, null, null, null, null],
-	[null, null, null, null, null, null, null, null],
-	['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
-	['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
-];
-
 const ChessBoard = () => {
+	// black lower case, white upper case
+	const INITIAL_BOARD = [
+		['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+		['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+		[null, null, null, null, null, null, null, null],
+		[null, null, null, null, null, null, null, null],
+		[null, null, null, null, null, null, null, null],
+		[null, null, null, null, null, null, null, null],
+		['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+		['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
+	];
+
 	const [board, setBoard] = useState(INITIAL_BOARD);
 	const [selectedPiece, setSelectedPiece] = useState(null);
 	const [isWhiteTurn, setIsWhiteTurn] = useState(true);
