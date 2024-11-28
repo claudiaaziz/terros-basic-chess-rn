@@ -43,6 +43,36 @@ const ChessBoard = () => {
 			}
 		}
 
+		// Knight movement rules
+		if (piece?.toLowerCase() === 'n') {
+			const rowDiff = Math.abs(toRow - fromRow);
+			const colDiff = Math.abs(toCol - fromCol);
+
+			// 2 squares in one direction and 1 in the other
+			return (rowDiff === 2 && colDiff === 1) || (rowDiff === 1 && colDiff === 2);
+		}
+
+		// Rook movement rules
+		if (piece?.toLowerCase() === 'r') {
+			if (fromRow === toRow || fromCol === toCol) {
+				const rowDirection = fromRow === toRow ? 0 : toRow > fromRow ? 1 : -1;
+				const colDirection = fromCol === toCol ? 0 : toCol > fromCol ? 1 : -1;
+
+				let currentRow = fromRow + rowDirection;
+				let currentCol = fromCol + colDirection;
+
+				// check if path is clear
+				while (currentRow !== toRow || currentCol !== toCol) {
+					if (board[currentRow][currentCol]) {
+						return false;
+					}
+					currentRow += rowDirection;
+					currentCol += colDirection;
+				}
+				return true;
+			}
+		}
+
 		return false;
 	};
 
